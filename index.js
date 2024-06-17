@@ -1,10 +1,10 @@
-// server.js
 const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
 const connectDB = require("./db/connect");
 const { Users, Message } = require("./db/schema");
 const cors = require("cors");
+const {config} = require("dotenv")
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
@@ -15,6 +15,7 @@ const io = new Server(server, {
 });
 
 connectDB();
+config();
 app.use(
   cors({
     origin: "http://localhost:3000",

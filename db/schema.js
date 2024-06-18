@@ -8,8 +8,10 @@ const userSchema = new mongoose.Schema({
 const messageSchema = new mongoose.Schema({
   username: String,
   message: String,
+  profilePic: String,
   timestamp: { type: Date, default: Date.now },
 });
+
 
 const Users = mongoose.model("Users", userSchema);
 const Message = mongoose.model("Message", messageSchema);

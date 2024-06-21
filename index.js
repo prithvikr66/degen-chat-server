@@ -21,13 +21,13 @@ connectDB();
 config();
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "65.0.61.181:3000/",
   })
 );
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "65.0.61.181:3000/",
   })
 );
 app.options("*", cors());
@@ -137,7 +137,6 @@ app.get("/api/user-profile", async (req, res) => {
     const user = await Users.findOne({ walletAddress });
 
     if (user) {
-      console.log(user);
       return res.status(200).json(user);
     }
   } catch (err) {

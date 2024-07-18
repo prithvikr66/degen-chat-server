@@ -15,26 +15,25 @@ Make sure you have the following installed on your machine:
 
    ```sh
    git clone https://github.com/your-username/degen-chat-server.git
-
+   ```
 
 2. Navigate to the project directory:
-sh
+ ```sh
 cd degen-chat-server
-
+ ```
 
 3. Install the dependencies:
-
-sh
-
+ ```sh
 npm install
-
+ ```
 # Setup
-Create a .env file in the root of your project directory and add the following environment variables:
+Create a .env file in the root of your project directory and add the required environment variables.
 
 # Running the Server
 To start the server, run the following command in the terminal:
  ```sh
 node index.js
+```
 
 You should see a message indicating that the server is running on the specified port. By default, the server runs on port 3000.
 

@@ -35,7 +35,7 @@ To start the server, run the following command in the terminal:
 node index.js
 ```
 
-You should see a message indicating that the server is running on the specified port. By default, the server runs on port 3000.
+You should see a message indicating that the server is running on the specified port. By default, the server runs on port 8000.
 
 # Accessing the Server
-Open your web browser and navigate to http://localhost:3000. You should see a message saying "good to go" indicating that the server is running successfully.
+Open your web browser and navigate to http://localhost:8000. You should see a message saying "good to go" indicating that the server is running successfully.

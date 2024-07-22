@@ -1,7 +1,7 @@
 const express = require("express");
 const http = require("http");
 const multer = require("multer");
-const aws = require("aws-sdk");
+const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 const { v4: uuidv4 } = require("uuid");
 const { Server } = require("socket.io");
 const connectDB = require("./db/connect");
@@ -21,13 +21,13 @@ connectDB();
 config();
 app.use(
   cors({
-    origin: "65.0.61.181:3000/",
+    origin: "65.0.61.181:8000/",
   })
 );
 app.use(express.json());
 app.use(
   cors({
-    origin: "65.0.61.181:3000/",
+    origin: "65.0.61.181:8000/",
   })
 );
 app.options("*", cors());
@@ -40,10 +40,12 @@ var allowCrossDomain = function (req, res, next) {
 };
 app.use(allowCrossDomain);
 
-const s3 = new aws.S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+const s3Client = new S3Client({
   region: process.env.AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  },
 });
 
 const upload = multer({
@@ -80,8 +82,10 @@ app.post("/api/profile-pic", upload.single("profilePic"), async (req, res) => {
       ContentType: file.mimetype,
     };
 
-    const data = await s3.upload(uploadParams).promise();
-    existingUser.profilePic = data.Location;
+    const command = new PutObjectCommand(uploadParams);
+    const data = await s3Client.send(command);
+
+    existingUser.profilePic = `https://${process.env.S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${uploadParams.Key}`;
     await existingUser.save();
     res.status(200).send({ message: "Profile Pic set successfully", data });
   } catch (error) {
@@ -158,6 +162,6 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(3000, () => {
-  console.log("Server is running on port 3000");
+server.listen(8000, () => {
+  console.log("Server is running on port 8000");
 });
